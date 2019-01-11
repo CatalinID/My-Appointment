@@ -1,18 +1,21 @@
 package com.msaproject.catal.myappointment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
 
 public class MainPage extends AppCompatActivity {
 
@@ -20,8 +23,15 @@ public class MainPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-        TextView textView=findViewById(R.id.textUserName);
-        textView.setText("Welcome User!");
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String userEmail = user.getEmail();
+        String userName = user.getDisplayName();
+
+        TextView textView = findViewById(R.id.textUserName);
+        if(userName != null) textView.setText("Welcome " + userName +"!");
+        else textView.setText("Welcome!");
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -29,7 +39,7 @@ public class MainPage extends AppCompatActivity {
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.color.md_dark_background)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Catalin Dondera").withEmail("ionut.dondera@student.upt.ro").withIcon(R.drawable.avatar)
+                        new ProfileDrawerItem().withName(userName).withEmail(userEmail).withIcon(R.drawable.avatar)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -50,13 +60,13 @@ public class MainPage extends AppCompatActivity {
                 .withSelectedColor(Color.LTGRAY)
                 .withSelectedTextColor(Color.BLACK)
                 .withIcon(R.drawable.calendar);
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName("Settings")
+        final PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName("Settings")
                 .withTextColor(Color.LTGRAY)
                 .withSelectedColor(Color.LTGRAY)
                 .withSelectedTextColor(Color.BLACK)
                 .withIcon(R.drawable.black_settings_button);
 
-        Drawer result = new DrawerBuilder()
+        final Drawer result = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(accountHeader)
                 .addDrawerItems(
@@ -69,11 +79,16 @@ public class MainPage extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if(drawerItem.equals(item3)){
+                        Intent intent = new Intent(MainPage.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();}
                         return false;
                     }
                 })
                 .withSliderBackgroundColor(Color.DKGRAY)
                 .withCloseOnClick(true)
                 .build();
+
     }
 }

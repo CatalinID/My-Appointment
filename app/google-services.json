@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "130046086760",
+    "firebase_url": "https://my-appointment-icdon.firebaseio.com",
+    "project_id": "my-appointment-icdon",
+    "storage_bucket": "my-appointment-icdon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130046086760:android:ec09044bb09f414c",
+        "android_client_info": {
+          "package_name": "com.msaproject.catal.myappointment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130046086760-3ic5be3662blica0rgajt19j0t7q6u64.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.msaproject.catal.myappointment",
+            "certificate_hash": "0e2af8102f7980e66dfb85d4fb4505de39f4af20"
+          }
+        },
+        {
+          "client_id": "130046086760-fup7v67o9mm4up5mfbpad9pji04q41ir.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiZQ1VkHwJbyheAt3PajoupCTl3X_Opq0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130046086760-fup7v67o9mm4up5mfbpad9pji04q41ir.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
