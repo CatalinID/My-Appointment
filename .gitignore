@@ -9,3 +9,6 @@
 /build
 /captures
 .externalNativeBuild
+app/src/main/gen/com/msaproject/catal/myappointment/R.java
+app/src/main/gen/com/msaproject/catal/myappointment/BuildConfig.java
+app/src/main/gen/com/msaproject/catal/myappointment/Manifest.java

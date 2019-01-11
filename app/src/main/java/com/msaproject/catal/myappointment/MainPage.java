@@ -91,4 +91,13 @@ public class MainPage extends AppCompatActivity {
                 .build();
 
     }
+
+    @Override    protected void onResume() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            startActivity(new Intent(MainPage.this, MainActivity.class));
+            finish();
+        }
+        super.onResume();
+    }
 }

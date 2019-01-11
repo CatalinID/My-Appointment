@@ -64,10 +64,14 @@ public class RegisterActivity extends AppCompatActivity {
                                         if (!task.isSuccessful()) {
                                             Toast.makeText(
                                                     RegisterActivity.this,
-                                                    "Authentication Failed",
+                                                    "Registration Failed",
                                                     Toast.LENGTH_LONG).show();
-                                            Log.v("error", task.getResult().toString());
                                         } else {
+                                            Toast.makeText(
+                                                    RegisterActivity.this,
+                                                    "Registration Successfull",
+                                                    Toast.LENGTH_LONG).show();
+
 
                                             FirebaseUser user = auth.getCurrentUser();
 
@@ -87,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(
                                 RegisterActivity.this,
-                                "Fill All Fields",
+                                "Please Fill All Fields",
                                 Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {

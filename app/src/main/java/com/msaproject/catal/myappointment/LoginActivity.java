@@ -57,11 +57,17 @@ public class LoginActivity extends AppCompatActivity {
                                                     LoginActivity.this,
                                                     "Authentication Failed",
                                                     Toast.LENGTH_LONG).show();
-                                            Log.v("error", task.getResult().toString());
                                         } else {
+
+                                            Toast.makeText(
+                                                    LoginActivity.this,
+                                                    "Authentication Successfull",
+                                                    Toast.LENGTH_LONG).show();
+
                                             Intent intent = new Intent(LoginActivity.this, MainPage.class);
                                             startActivity(intent);
                                             finish();
+
                                         }
                                         PD.dismiss();
                                     }
@@ -96,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override    protected void onResume() {
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainPage.class));
             finish();
         }
         super.onResume();
