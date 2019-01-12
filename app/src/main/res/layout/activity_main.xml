@@ -10,11 +10,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome to Firebase Auth Tutorial"
         android:gravity="center"
+        android:padding="10dp"
+        android:text="Account settings:"
         android:textAllCaps="true"
-        android:textSize="16sp"
-        android:padding="10dp"/>
+        android:textSize="16sp" />
 
 
     <Button
@@ -54,6 +54,15 @@
         android:layout_marginTop="20dip"
         android:background="@color/colorPrimary"
         android:text="Sign Out"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:background="@color/background"
+        android:text="BACK"
         android:textColor="@color/white" />
 
 

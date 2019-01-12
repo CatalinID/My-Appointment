@@ -1,5 +1,4 @@
 package com.msaproject.catal.myappointment;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnSignOut;
     FirebaseAuth auth;
     FirebaseUser user;
-    ProgressDialog PD;
+
 
 
 
@@ -22,13 +21,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-
-        PD = new ProgressDialog(this);
-        PD.setMessage("Loading...");
-        PD.setCancelable(true);
-        PD.setCanceledOnTouchOutside(false);
 
         btnSignOut = findViewById(R.id.sign_out_button);
 
@@ -61,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ForgetAndChangePasswordActivity.class).putExtra("Mode", 3));
             }
         });
+
+        findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
+            @Override            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,MainPage.class));
+            }
+        });
+
+
     }
 
     @Override    protected void onResume() {
@@ -71,3 +74,4 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 }
+

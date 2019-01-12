@@ -1,10 +1,8 @@
 package com.msaproject.catal.myappointment;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,24 +12,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private Button btnSignUp, btnLogin;
-    private ProgressDialog PD;
 
     @Override    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        PD = new ProgressDialog(this);
-        PD.setMessage("Loading...");
-        PD.setCancelable(true);
-        PD.setCanceledOnTouchOutside(false);
         auth = FirebaseAuth.getInstance();
 
         inputEmail = (EditText) findViewById(R.id.email);
@@ -47,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
                 try {
 
                     if (password.length() > 0 && email.length() > 0) {
-                        PD.show();
                         auth.signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
@@ -69,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                                             finish();
 
                                         }
-                                        PD.dismiss();
                                     }
                                 });
                     } else {

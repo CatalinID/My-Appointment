@@ -1,5 +1,4 @@
 package com.msaproject.catal.myappointment;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -22,7 +21,6 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
     private TextView txtMode;
     private Button submit;
     private FirebaseAuth auth;
-    private ProgressDialog PD;
     private TextInputLayout labelMode;
 
 
@@ -30,11 +28,6 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
     @Override    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_and_change_password);
-
-        PD = new ProgressDialog(this);
-        PD.setMessage("Loading...");
-        PD.setCancelable(true);
-        PD.setCanceledOnTouchOutside(false);
 
         auth = FirebaseAuth.getInstance();
 
@@ -77,7 +70,6 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(modeStr)) {
                 edtMode.setError("Value Required");
             } else {
-                PD.show();
                 auth.sendPasswordResetEmail(modeStr).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override                    public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
@@ -85,7 +77,6 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(ForgetAndChangePasswordActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                         }
-                        PD.dismiss();
 
                     }
                 });
@@ -94,7 +85,6 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(modeStr)) {
                 edtMode.setError("Value Required");
             } else {
-                PD.show();
                 user.updatePassword(modeStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override                            public void onComplete(@NonNull Task<Void> task) {
@@ -103,7 +93,6 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(ForgetAndChangePasswordActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
                                 }
-                                PD.dismiss();
                             }
 
                         });
@@ -112,7 +101,6 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(modeStr)) {
                 edtMode.setError("Value Required");
             } else {
-                PD.show();
                 user.updateEmail(modeStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override                            public void onComplete(@NonNull Task<Void> task) {
@@ -121,13 +109,11 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(ForgetAndChangePasswordActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
                                 }
-                                PD.dismiss();
                             }
                         });
             }
         } else {
             if (user != null) {
-                PD.show();
                 user.delete()
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override                            public void onComplete(@NonNull Task<Void> task) {
@@ -136,7 +122,6 @@ public class ForgetAndChangePasswordActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(ForgetAndChangePasswordActivity.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();
                                 }
-                                PD.dismiss();
                             }
                         });
             }
