@@ -31,7 +31,7 @@ public class ReservationActivity extends AppCompatActivity {
 
         mActivity = this;
         mSimpleDateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.getDefault());
-        mDate = (TextView) findViewById(R.id.contentMain);
+        mDate = (TextView) findViewById(R.id.dateMain);
         mDate.setOnClickListener(textListener);
     }
 
@@ -63,7 +63,15 @@ public class ReservationActivity extends AppCompatActivity {
 
             Appointments ap = new Appointments();
             Reservation newReservation = new Reservation();
-            newReservation.setReservationStart(mSimpleDateFormat.format(mCalendar.getTime()));
+
+            SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+            SimpleDateFormat monthYearFormat = new SimpleDateFormat("yyyy-MM");
+            SimpleDateFormat startHourFormat = new SimpleDateFormat("h:mm");
+
+            newReservation.setDay(dayFormat.format(mCalendar.getTime()));
+            newReservation.setStartHour(startHourFormat.format(mCalendar.getTime()));
+            newReservation.setMonthYear(monthYearFormat.format(mCalendar.getTime()));
+
             int response = ap.makeAppointment("Beauty Shop",newReservation);
 
             if(response == 0){

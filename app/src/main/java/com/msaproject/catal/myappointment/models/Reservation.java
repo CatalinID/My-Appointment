@@ -1,5 +1,6 @@
 package com.msaproject.catal.myappointment.models;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
@@ -9,11 +10,16 @@ import java.util.Date;
 public class Reservation {
     private @ServerTimestamp Date timestamp;
     private String user_id;
-    private String reservationStart;
+    private String startHour;
+    private @Exclude int day;
+    private @Exclude String monthYear;
 
-    public Reservation(Date timestamp, String user_id, String reservationStart) {
+    public Reservation(Date timestamp, String user_id, String startHour, int day, String monthYear) {
         this.timestamp = timestamp;
         this.user_id = user_id;
+        this.startHour = startHour;
+        this.day = day;
+        this.monthYear = monthYear;
     }
 
     public Reservation(){}
@@ -34,11 +40,31 @@ public class Reservation {
         this.user_id = user_id;
     }
 
-    public String getReservationStart() {
-        return reservationStart;
+    public String getStartHour() {
+        return startHour;
     }
 
-    public void setReservationStart(String reservationStart) {
-        this.reservationStart = reservationStart;
+    public void setStartHour(String startHour) {
+        this.startHour = startHour;
+    }
+
+    @Exclude
+    public int getDay() {
+        return day;
+    }
+
+    @Exclude
+    public void setDay(String day) {
+        this.day = Integer.parseInt(day);
+    }
+
+    @Exclude
+    public String getMonthYear() {
+        return monthYear;
+    }
+
+    @Exclude
+    public void setMonthYear(String monthYear) {
+        this.monthYear = monthYear;
     }
 }
