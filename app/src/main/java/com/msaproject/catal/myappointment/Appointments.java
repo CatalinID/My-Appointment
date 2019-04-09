@@ -20,7 +20,7 @@ class Appointments {
     public int makeAppointment(String businessName, Reservation reservation){
         //DocumentReference newReservationRef = businessRef.collection("reservations").document(businessName);
 
-        DocumentReference newReservationRef = businessRef.collection("reservations").document( businessName).collection( reservation.getMonthYear()).document( "Day:" + reservation.getDay());
+        DocumentReference newReservationRef = businessRef.collection("reservations" ).document(businessName).collection(reservation.getMonthYear()+ "-" + reservation.getDay()).document(reservation.getStartHour());
 
         reservation.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
         //checkAvailability(businessName,timestamp);

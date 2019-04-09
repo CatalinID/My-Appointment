@@ -9,7 +9,7 @@
     tools:context=".ReservationActivity">
 
     <TextView
-        android:id="@+id/contentMain"
+        android:id="@+id/dateMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Set a date!"
