@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.msaproject.catal.myappointment.models.Reservation;
 
@@ -72,17 +71,12 @@ public class ReservationActivity extends AppCompatActivity {
             newReservation.setStartHour(startHourFormat.format(mCalendar.getTime()));
             newReservation.setMonthYear(monthYearFormat.format(mCalendar.getTime()));
 
-            int response = ap.makeAppointment("Beauty Shop",newReservation);
 
-            if(response == 0){
-            Toast.makeText(
+            ap.makeAppointment("Beauty Shop",newReservation);
+            /*Toast.makeText(
                     ReservationActivity.this,
                     "APPOINTEMENT HAS BEEN MADE",
-                    Toast.LENGTH_LONG).show();}
-            else {Toast.makeText(
-                    ReservationActivity.this,
-                    "DATE/TIME TAKEN",
-                    Toast.LENGTH_LONG).show();}
+                    Toast.LENGTH_LONG).show();*/
         }
     };
 
