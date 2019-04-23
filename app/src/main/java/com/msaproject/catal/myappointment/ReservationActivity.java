@@ -30,7 +30,7 @@ public class ReservationActivity extends AppCompatActivity {
 
         mActivity = this;
         mSimpleDateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.getDefault());
-        mDate = (TextView) findViewById(R.id.dateMain);
+        mDate = findViewById(R.id.dateMain);
         mDate.setOnClickListener(textListener);
     }
 

@@ -23,8 +23,12 @@
           }
         },
         {
-          "client_id": "130046086760-fup7v67o9mm4up5mfbpad9pji04q41ir.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "130046086760-dg9pm9hjm0u8gn4fd43ap85oc0imdh9s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.msaproject.catal.myappointment",
+            "certificate_hash": "18a8723dd622cefef4179d38ee6a527a4a539cbb"
+          }
         }
       ],
       "api_key": [
@@ -33,20 +37,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "130046086760-fup7v67o9mm4up5mfbpad9pji04q41ir.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
