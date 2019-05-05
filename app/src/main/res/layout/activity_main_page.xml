@@ -9,22 +9,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="70dp"
-        android:layout_height="79dp"
-        app:srcCompat="@drawable/barber_logo_small" />
-
-    <TextView
-        android:id="@+id/textUserName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textColor="@color/md_blue_500"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="24dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,103 +26,50 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/description_title"
+                    android:id="@+id/textUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Description"
-                    android:textColor="@color/md_blue_300"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-                <TextView
-                    android:id="@+id/descripiton_business"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-                <TextView
-                    android:id="@+id/address_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Address"
-                    android:textColor="@color/md_blue_300"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-                <TextView
-                    android:id="@+id/address_business"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="563 Farrington Highway Kapolei, \nHI 96707"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-                <TextView
-                    android:id="@+id/contact_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Contact"
-                    android:textColor="@color/md_blue_300"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-                <TextView
-                    android:id="@+id/contact_business"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-                <TextView
-                    android:id="@+id/hours_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Hours"
-                    android:textColor="@color/md_blue_300"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-                <TextView
-                    android:id="@+id/hours_business"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/prices_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Services and Prices"
-                    android:textColor="@color/md_blue_300"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-                <TextView
-                    android:id="@+id/prices_business"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:textAlignment="center"
+                    android:textColor="@color/md_blue_500"
+                    android:textSize="30sp"
+                    tools:layout_editor_absoluteX="51dp"
+                    tools:layout_editor_absoluteY="24dp" />
 
                 <View
-                    android:id="@+id/divider"
+                    android:id="@+id/divider2"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:background="?android:attr/listDivider"
-                    android:visibility="invisible" />
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
 
-                <Button
-                    android:id="@+id/reservation_button"
-                    style="@android:style/Widget.Holo.Button"
+                <TextView
+                    android:id="@+id/textUpcomingList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/common_google_signin_btn_text_dark_disabled"
-                    android:backgroundTint="@color/colorPrimaryLight"
-                    android:elevation="3dp"
-                    android:text="Make an appointement" />
+                    android:lineSpacingExtra="8sp"
+                    android:text="Upcoming Appointments"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="#F44336"
+                    android:textSize="24sp"
+                    android:textStyle="italic"
+                    android:visibility="visible" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycle_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <Button
+                    android:id="@+id/search_button"
+                    style="@android:style/Widget.Material.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="New Appointment"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="#8BC34A"
+                    android:textSize="18sp"
+                    android:visibility="visible" />
 
             </LinearLayout>
         </ScrollView>
