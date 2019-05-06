@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import com.msaproject.catal.myappointment.models.Reservation;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ReservationRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Reservation> mReservation;
     private Context mContext;
-    private int mSelectedNoteIndex;
 
 
     // data is passed into the constructor
@@ -32,7 +30,7 @@ public class ReservationRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder;
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.activity_main_page, parent, false);
+                R.layout.layout_reservation_list_item, parent, false);
 
         holder = new ViewHolder(view);
 
@@ -43,11 +41,9 @@ public class ReservationRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof ViewHolder){
-            ((ViewHolder)holder).title.setText(mReservation.get(position).getStartHour());
+            ((ViewHolder)holder).title.setText(mReservation.get(position).getBusinessName());
 
-            SimpleDateFormat spf = new SimpleDateFormat("MMM dd, yyyy");
-            String date = spf.format(mReservation.get(position).getTimestamp());
-            ((ViewHolder)holder).timestamp.setText(date);
+            ((ViewHolder)holder).timestart.setText(mReservation.get(position).getReservationTime());
         }
     }
 
@@ -61,12 +57,12 @@ public class ReservationRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, timestamp;
+        TextView title, timestart;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
-            timestamp = itemView.findViewById(R.id.timestamp);
+            timestart = itemView.findViewById(R.id.timestart);
 
         }
 

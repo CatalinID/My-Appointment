@@ -13,16 +13,30 @@ public class Reservation {
     private String startHour;
     private @Exclude int day;
     private @Exclude String monthYear;
+    private String businessName;
 
-    public Reservation(Date timestamp, String user_id, String startHour, int day, String monthYear) {
+    public Reservation(Date timestamp, String user_id, String startHour, int day, String monthYear, String businessName) {
         this.timestamp = timestamp;
         this.user_id = user_id;
         this.startHour = startHour;
         this.day = day;
         this.monthYear = monthYear;
+        this.businessName = businessName;
     }
 
     public Reservation(){}
+
+    public String getReservationTime(){
+        return startHour+ "," + day + "," + monthYear;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
 
     public Date getTimestamp() {
         return timestamp;
