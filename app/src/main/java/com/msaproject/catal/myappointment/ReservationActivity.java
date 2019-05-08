@@ -29,7 +29,7 @@ public class ReservationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reservation);
 
         mActivity = this;
-        mSimpleDateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.getDefault());
+        mSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a", Locale.getDefault());
         mDate = findViewById(R.id.dateMain);
         mDate.setOnClickListener(textListener);
     }

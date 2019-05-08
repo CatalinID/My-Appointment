@@ -57,6 +57,11 @@ public class MainPage extends AppCompatActivity {
         String userName = loggedUser.getUserName();
         String userEmail = loggedUser.getUserEmail();
 
+        //recycleview
+        upcomingView = findViewById(R.id.recycle_view);
+        initRecyclerView();
+        getUserReservations();
+
         TextView textView = findViewById(R.id.textUserName);
         if(userName != null) textView.setText("Welcome, " + userName +"!");
         else textView.setText("Welcome!");

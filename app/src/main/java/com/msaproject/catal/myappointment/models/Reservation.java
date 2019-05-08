@@ -14,6 +14,7 @@ public class Reservation {
     private @Exclude int day;
     private @Exclude String monthYear;
     private String businessName;
+    private String reservationTime;
 
     public Reservation(Date timestamp, String user_id, String startHour, int day, String monthYear, String businessName) {
         this.timestamp = timestamp;
@@ -22,12 +23,13 @@ public class Reservation {
         this.day = day;
         this.monthYear = monthYear;
         this.businessName = businessName;
+        this.reservationTime = startHour + "," + day + "," + monthYear;
     }
 
     public Reservation(){}
 
     public String getReservationTime(){
-        return startHour+ "," + day + "," + monthYear;
+        return reservationTime;
     }
 
     public String getBusinessName() {
