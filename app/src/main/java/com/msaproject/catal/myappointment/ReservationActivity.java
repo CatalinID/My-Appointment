@@ -4,12 +4,20 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.msaproject.catal.myappointment.models.Reservation;
 
 import java.text.SimpleDateFormat;
@@ -60,24 +68,44 @@ public class ReservationActivity extends AppCompatActivity {
             mCalendar.set(Calendar.MINUTE, minute);
             mDate.setText(mSimpleDateFormat.format(mCalendar.getTime()));
 
-            Appointments ap = new Appointments();
             Reservation newReservation = new Reservation();
 
             SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
-            SimpleDateFormat monthYearFormat = new SimpleDateFormat("yyyy-MM");
+            SimpleDateFormat monthYearFormat = new SimpleDateFormat("MM-yyyy");
             SimpleDateFormat startHourFormat = new SimpleDateFormat("h:mm");
+            Timestamp reservationBegin = new Timestamp(mCalendar.getTimeInMillis()/1000,0);
 
             newReservation.setDay(dayFormat.format(mCalendar.getTime()));
             newReservation.setStartHour(startHourFormat.format(mCalendar.getTime()));
             newReservation.setMonthYear(monthYearFormat.format(mCalendar.getTime()));
+            newReservation.setReservationBegin(reservationBegin);
 
 
-            ap.makeAppointment("Beauty Shop",newReservation);
-            /*Toast.makeText(
-                    ReservationActivity.this,
-                    "APPOINTEMENT HAS BEEN MADE",
-                    Toast.LENGTH_LONG).show();*/
+            FirebaseFirestore businessRef = FirebaseFirestore.getInstance();
+
+            DocumentReference newReservationRef = businessRef.collection("reservations" ).document();//.document(businessName).collection(reservation.getMonthYear()+ "-" + reservation.getDay()).document(reservation.getStartHour());
+
+            newReservation.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            newReservation.setBusiness_id(newReservationRef.getId());
+
+            newReservationRef.set(newReservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+               if (task.isSuccessful()) {
+                   Toast.makeText(
+                           ReservationActivity.this,
+                           "APPOINTEMENT HAS BEEN MADE",
+                           Toast.LENGTH_LONG).show();
+               } else {
+                   Toast.makeText(
+                           ReservationActivity.this,
+                           "APPOINTEMENT FAILED",
+                           Toast.LENGTH_LONG).show();
+               }
+                }
+            });
         }
+
     };
 
 }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -155,7 +156,8 @@ public class MainPage extends AppCompatActivity {
         CollectionReference reservationsCollectionRef = db.collection("reservations");
 
         Query reservationsQuery = reservationsCollectionRef
-                .whereEqualTo("user_id",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .whereEqualTo("user_id",FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .orderBy("reservationBegin",Query.Direction.ASCENDING);
 
         reservationsQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -163,7 +165,9 @@ public class MainPage extends AppCompatActivity {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot document: task.getResult()){
                         Reservation reservation = document.toObject(Reservation.class);
-                        upcomingResList.add(reservation);
+                        Timestamp timestamp = new Timestamp(System.currentTimeMillis()/1000,0);
+                        if(timestamp.compareTo(reservation.getReservationBegin()) < 1 )
+                            upcomingResList.add(reservation);
                     }
                     upcomingResAdapter.notifyDataSetChanged();
                 }
