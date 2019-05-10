@@ -17,6 +17,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -44,6 +45,7 @@ public class MainPage extends AppCompatActivity {
     private View parentLayout;
     private ArrayList<Reservation> upcomingResList = new ArrayList<>();
     private ReservationRecycleViewAdapter upcomingResAdapter;
+    private DocumentSnapshot lastReservation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,10 +157,19 @@ public class MainPage extends AppCompatActivity {
 
         CollectionReference reservationsCollectionRef = db.collection("reservations");
 
-        Query reservationsQuery = reservationsCollectionRef
-                .whereEqualTo("user_id",FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .orderBy("reservationBegin",Query.Direction.ASCENDING);
+        Query reservationsQuery = null;
 
+        if(lastReservation != null){
+            reservationsQuery = reservationsCollectionRef
+                    .whereEqualTo("user_id", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .orderBy("reservationBegin", Query.Direction.ASCENDING)
+                    .startAfter(lastReservation);
+        }
+        else {
+            reservationsQuery = reservationsCollectionRef
+                    .whereEqualTo("user_id", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .orderBy("reservationBegin", Query.Direction.ASCENDING);
+        }
         reservationsQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -168,6 +179,10 @@ public class MainPage extends AppCompatActivity {
                         Timestamp timestamp = new Timestamp(System.currentTimeMillis()/1000,0);
                         if(timestamp.compareTo(reservation.getReservationBegin()) < 1 )
                             upcomingResList.add(reservation);
+                    }
+
+                    if(task.getResult().size() != 0){
+                        lastReservation = task.getResult().getDocuments().get(task.getResult().size() - 1);
                     }
                     upcomingResAdapter.notifyDataSetChanged();
                 }
