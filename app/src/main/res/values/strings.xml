@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My Appointment</string>
+    <string name="dialog_select_photo">SelectPhoto</string>
 </resources>

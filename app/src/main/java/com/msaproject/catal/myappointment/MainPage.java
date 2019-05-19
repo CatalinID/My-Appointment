@@ -1,13 +1,19 @@
 package com.msaproject.catal.myappointment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +45,9 @@ import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
 
+    private static final String TAG = "MainPageActivity";
+    private static final int REQUEST_CODE = 1;
+
     FirebaseAuth auth;
 
     private RecyclerView upcomingView;
@@ -60,6 +69,8 @@ public class MainPage extends AppCompatActivity {
         String userName = loggedUser.getUserName();
         String userEmail = loggedUser.getUserEmail();
 
+        verifyPermissions();
+
         //recycleview
         upcomingView = findViewById(R.id.recycle_view);
         initRecyclerView();
@@ -68,6 +79,16 @@ public class MainPage extends AppCompatActivity {
         TextView textView = findViewById(R.id.textUserName);
         if(userName != null) textView.setText("Welcome, " + userName +"!");
         else textView.setText("Welcome!");
+
+        Button searchButton = findViewById(R.id.search_button);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainPage.this, BusinessRegisterActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
@@ -194,5 +215,30 @@ public class MainPage extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void verifyPermissions(){
+        Log.d(TAG, "verifyPermissions: asking user for permissions");
+        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA};
+
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                permissions[0]) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                permissions[1]) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                permissions[2]) == PackageManager.PERMISSION_GRANTED){
+
+        }else{
+            ActivityCompat.requestPermissions(MainPage.this,
+                    permissions,
+                    REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        verifyPermissions();
     }
 }
