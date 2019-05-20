@@ -3,10 +3,9 @@ package com.msaproject.catal.myappointment;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +19,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -29,6 +26,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.msaproject.catal.myappointment.models.Business;
+import com.msaproject.catal.myappointment.util.RotateBitmap;
 import com.msaproject.catal.myappointment.util.UniversalImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -170,7 +168,8 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
 
             if(mBitmap == null){
                 try{
-                    mBitmap = MediaStore.Images.Media.getBitmap(BusinessRegisterActivity.this.getContentResolver(), params[0]);
+                    RotateBitmap rotateBitmap = new RotateBitmap();
+                    mBitmap =rotateBitmap.HandleSamplingAndRotationBitmap(BusinessRegisterActivity.this, params[0]);
                 }catch (IOException e){
                     Log.e(TAG, "doInBackground: IOException: " + e.getMessage());
                 }
@@ -195,11 +194,12 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
     private void executeUploadTask(){
         Toast.makeText(BusinessRegisterActivity.this, "uploading image", Toast.LENGTH_SHORT).show();
 
-        final String businessId = FirebaseDatabase.getInstance().getReference().push().getKey();
+        final DocumentReference businnessDoc = FirebaseFirestore.getInstance().collection("business").document();
+
+        final String businessId = businnessDoc.getId();
 
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                .child("business/users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() +
-                        "/" + businessId + "/business_image");
+                .child("business/photo/" + businessId + "/business_image");
 
         UploadTask uploadTask = storageReference.putBytes(mUploadBytes);
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -208,15 +208,16 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
                 Toast.makeText(BusinessRegisterActivity.this, "Post Success", Toast.LENGTH_SHORT).show();
 
                 //insert the download url into the firebase database
-                Uri firebaseUri = taskSnapshot.getDownloadUrl();
+                String firebasePath = taskSnapshot.getMetadata().getPath();
 
-                Log.d(TAG, "onSuccess: firebase download url: " + firebaseUri.toString());
-                DocumentReference businnessDoc = FirebaseFirestore.getInstance().collection("business").document();
+                Log.d(TAG, "onSuccess: firebase download path: " + firebasePath);
+                //DocumentReference businnessDoc = FirebaseFirestore.getInstance().collection("business").document();
 
                 Business newBusiness = new Business();
-                newBusiness.setImage(firebaseUri.toString());
+                newBusiness.setImage(firebasePath);
                 newBusiness.setCity(mCity.getText().toString());
                 newBusiness.setCountry(mCountry.getText().toString());
+                newBusiness.setState_province(mStateProvince.getText().toString());
                 newBusiness.setDescription(mDescription.getText().toString());
                 newBusiness.setEmail(mContactEmail.getText().toString());
                 newBusiness.setPhoneNo(mPhoneNo.getText().toString());
@@ -224,6 +225,7 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
                 newBusiness.setPrice(mPrice.getText().toString());
                 newBusiness.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 newBusiness.setBusiness_id(businessId);
+                //working hours? maybe just in description
 
                 businnessDoc.set(newBusiness).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -279,6 +281,7 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
         mStateProvince.setText("");
         mCity.setText("");
         mContactEmail.setText("");
+        mPhoneNo.setText("");
     }
 
     private void showProgressBar(){

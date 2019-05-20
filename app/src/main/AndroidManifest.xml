@@ -30,6 +30,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgetAndChangePasswordActivity" />
         <activity android:name=".ReservationActivity" />
+        <activity android:name=".FiltersActivity"/>
     </application>
 
 </manifest>

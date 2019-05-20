@@ -85,8 +85,10 @@ public class MainPage extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainPage.this, BusinessRegisterActivity.class);
-                startActivity(intent);
+                Toast.makeText(
+                        MainPage.this,
+                        "New Appointement pressed",
+                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -118,11 +120,16 @@ public class MainPage extends AppCompatActivity {
                 .withSelectedColor(Color.LTGRAY)
                 .withSelectedTextColor(Color.BLACK)
                 .withIcon(R.drawable.calendar);
-        final PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName("Settings")
+        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName("Settings")
                 .withTextColor(Color.LTGRAY)
                 .withSelectedColor(Color.LTGRAY)
                 .withSelectedTextColor(Color.BLACK)
                 .withIcon(R.drawable.black_settings_button);
+        final PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName("Add your business")
+                .withTextColor(Color.LTGRAY)
+                .withSelectedColor(Color.LTGRAY)
+                .withSelectedTextColor(Color.BLACK)
+                .withIcon(R.drawable.shop);
 
         final Drawer result = new DrawerBuilder()
                 .withActivity(this)
@@ -132,12 +139,14 @@ public class MainPage extends AppCompatActivity {
                         new DividerDrawerItem(),
                         item2,
                         new DividerDrawerItem(),
-                        item3
+                        item3,
+                        new DividerDrawerItem(),
+                        itemSettings
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if(drawerItem.equals(item3)){
+                        if(drawerItem.equals(itemSettings)){
                             Intent intent = new Intent(MainPage.this, MainActivity.class);
                             startActivity(intent);
                             finish();}
@@ -145,6 +154,10 @@ public class MainPage extends AppCompatActivity {
                             Intent intent = new Intent(MainPage.this, ReservationActivity.class);
                             startActivity(intent);
                             finish();
+                        }
+                        if (drawerItem.equals(item3)){
+                            Intent intent = new Intent(MainPage.this, BusinessRegisterActivity.class);
+                            startActivity(intent);
                         }
                         return false;
                     }
