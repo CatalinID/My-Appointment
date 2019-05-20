@@ -1,15 +1,23 @@
 package com.msaproject.catal.myappointment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class AccountSettingsActivity extends AppCompatActivity {
+
+    private static final String TAG = "AccountSettingsActivity";
+
+    private boolean twice;
 
     Button btnSignOut;
     FirebaseAuth auth;
@@ -18,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     @Override    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d(TAG,"Started main activity");
 
         FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
@@ -57,19 +67,55 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,MainPage.class));
+                startActivity(new Intent(AccountSettingsActivity.this, MainPageActivity.class));
             }
         });
+
 
 
     }
 
     @Override    protected void onResume() {
         if (auth.getCurrentUser() == null) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            startActivity(new Intent(AccountSettingsActivity.this, LoginActivity.class));
             finish();
         }
         super.onResume();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+            return true;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (twice){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        }
+
+        twice = true;
+        Intent intent = new Intent(AccountSettingsActivity.this, MainPageActivity.class);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                twice = false;
+            }
+        }, 3000);
+
+        startActivity(intent);
+        finish();
     }
 }
 

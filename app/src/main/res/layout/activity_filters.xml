@@ -3,35 +3,35 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightGrey">
+    android:background="@color/colorPrimaryDark">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:elevation="10dp"
-        android:background="@drawable/grey_border_bottom">
+        android:background="@color/DarkGrey"
+        android:elevation="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:background="@color/DarkGrey">
 
             <ImageView
+                android:id="@+id/backArrow"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/backArrow"
-                android:src="@drawable/ic_back_arrow"/>
+                android:src="@drawable/ic_back_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Search Filters"
-                android:textColor="@color/Black"
-                android:textSize="20sp"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/backArrow"/>
+                android:layout_toRightOf="@+id/backArrow"
+                android:text="Search Filters"
+                android:textColor="@color/White"
+                android:textSize="20sp" />
 
         </RelativeLayout>
 
@@ -53,11 +53,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="City"
-                android:textColor="@color/Black"
-                android:textSize="17sp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:text="City"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
 
         </RelativeLayout>
 
@@ -65,18 +65,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relLayout1"
-            android:padding="10dp"
-            android:background="@color/White">
+            android:background="@color/colorPrimary"
+            android:padding="10dp">
 
             <EditText
+                android:id="@+id/input_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:hint="Enter a city to search"
-                android:id="@+id/input_city"
                 android:layout_marginTop="10dp"
                 android:background="@null"
-                android:inputType="textCapCharacters"/>
+                android:hint="Enter a city to search"
+                android:inputType="textCapCharacters"
+                android:textColor="@color/White"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
@@ -99,11 +100,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="State/Province"
-                android:textColor="@color/Black"
-                android:textSize="17sp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:text="State/Province"
+                android:textColor="@color/White"
+                android:textSize="17sp" />
 
         </RelativeLayout>
 
@@ -112,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/relLayout2"
             android:padding="10dp"
-            android:background="@color/White">
+            android:background="@color/colorPrimary">
 
             <EditText
                 android:layout_width="match_parent"
@@ -144,11 +145,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Country"
-                android:textColor="@color/Black"
-                android:textSize="17sp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:text="Country"
+                android:textColor="@color/White"
+                android:textSize="17sp" />
 
         </RelativeLayout>
 
@@ -156,18 +157,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relLayout3"
-            android:padding="10dp"
-            android:background="@color/White">
+            android:background="@color/colorPrimary"
+            android:padding="10dp">
 
             <EditText
+                android:id="@+id/input_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:hint="Enter a country to search"
-                android:id="@+id/input_country"
                 android:layout_marginTop="10dp"
                 android:background="@null"
-                android:inputType="textCapCharacters"/>
+                android:hint="Enter a country to search"
+                android:inputType="textCapCharacters"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 

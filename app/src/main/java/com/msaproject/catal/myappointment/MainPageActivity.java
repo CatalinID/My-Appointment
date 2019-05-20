@@ -43,7 +43,7 @@ import com.msaproject.catal.myappointment.models.User;
 import java.util.ArrayList;
 
 
-public class MainPage extends AppCompatActivity {
+public class MainPageActivity extends AppCompatActivity {
 
     private static final String TAG = "MainPageActivity";
     private static final int REQUEST_CODE = 1;
@@ -64,115 +64,127 @@ public class MainPage extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
 
-        User loggedUser = new User(auth);
-
-        String userName = loggedUser.getUserName();
-        String userEmail = loggedUser.getUserEmail();
-
-        verifyPermissions();
-
-        //recycleview
-        upcomingView = findViewById(R.id.recycle_view);
-        initRecyclerView();
-        getUserReservations();
-
-        TextView textView = findViewById(R.id.textUserName);
-        if(userName != null) textView.setText("Welcome, " + userName +"!");
-        else textView.setText("Welcome!");
-
-        Button searchButton = findViewById(R.id.search_button);
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(
-                        MainPage.this,
-                        "New Appointement pressed",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+        if (auth.getCurrentUser() == null) {
+            startActivity(new Intent(MainPageActivity.this, LoginActivity.class));
+            finish();
+        }else {
+            User loggedUser = new User(auth);
 
 
-        AccountHeader accountHeader = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withCompactStyle(true)
-                .withTranslucentStatusBar(true)
-                .withHeaderBackground(R.color.md_dark_background)
-                .addProfiles(
-                        new ProfileDrawerItem().withName(userName).withEmail(userEmail).withIcon(R.drawable.avatar)
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-                        return false;
-                    }
-                })
-                .withCloseDrawerOnProfileListClick(true)
-                .build();
+            String userName = loggedUser.getUserName();
+            String userEmail = loggedUser.getUserEmail();
 
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("Home")
-                .withTextColor(Color.LTGRAY)
-                .withSelectedColor(Color.LTGRAY)
-                .withSelectedTextColor(Color.BLACK)
-                .withIcon(R.drawable.home);
-        final PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName("My Appointments")
-                .withTextColor(Color.LTGRAY)
-                .withSelectedColor(Color.LTGRAY)
-                .withSelectedTextColor(Color.BLACK)
-                .withIcon(R.drawable.calendar);
-        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName("Settings")
-                .withTextColor(Color.LTGRAY)
-                .withSelectedColor(Color.LTGRAY)
-                .withSelectedTextColor(Color.BLACK)
-                .withIcon(R.drawable.black_settings_button);
-        final PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName("Add your business")
-                .withTextColor(Color.LTGRAY)
-                .withSelectedColor(Color.LTGRAY)
-                .withSelectedTextColor(Color.BLACK)
-                .withIcon(R.drawable.shop);
+            verifyPermissions();
 
-        final Drawer result = new DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(accountHeader)
-                .addDrawerItems(
-                        item1,
-                        new DividerDrawerItem(),
-                        item2,
-                        new DividerDrawerItem(),
-                        item3,
-                        new DividerDrawerItem(),
-                        itemSettings
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if(drawerItem.equals(itemSettings)){
-                            Intent intent = new Intent(MainPage.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();}
-                        if (drawerItem.equals(item2)){
-                            Intent intent = new Intent(MainPage.this, ReservationActivity.class);
-                            startActivity(intent);
-                            finish();
+            //recycleview
+            upcomingView = findViewById(R.id.recycle_view);
+            initRecyclerView();
+            getUserReservations();
+
+            TextView textView = findViewById(R.id.textUserName);
+            if (userName != null) textView.setText("Welcome, " + userName + "!");
+            else textView.setText("Welcome!");
+
+            Button searchButton = findViewById(R.id.search_button);
+
+            searchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(
+                            MainPageActivity.this,
+                            "New Appointement pressed",
+                            Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(MainPageActivity.this, SearchActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+            });
+
+
+            AccountHeader accountHeader = new AccountHeaderBuilder()
+                    .withActivity(this)
+                    .withCompactStyle(true)
+                    .withTranslucentStatusBar(true)
+                    .withHeaderBackground(R.color.md_dark_background)
+                    .addProfiles(
+                            new ProfileDrawerItem().withName(userName).withEmail(userEmail).withIcon(R.drawable.avatar)
+                    )
+                    .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                        @Override
+                        public boolean onProfileChanged(View view, IProfile profile, boolean current) {
+                            return false;
                         }
-                        if (drawerItem.equals(item3)){
-                            Intent intent = new Intent(MainPage.this, BusinessRegisterActivity.class);
-                            startActivity(intent);
+                    })
+                    .withCloseDrawerOnProfileListClick(true)
+                    .build();
+
+            PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("Home")
+                    .withTextColor(Color.LTGRAY)
+                    .withSelectedColor(Color.LTGRAY)
+                    .withSelectedTextColor(Color.BLACK)
+                    .withIcon(R.drawable.home);
+            final PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName("My Appointments")
+                    .withTextColor(Color.LTGRAY)
+                    .withSelectedColor(Color.LTGRAY)
+                    .withSelectedTextColor(Color.BLACK)
+                    .withIcon(R.drawable.calendar);
+            final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName("Settings")
+                    .withTextColor(Color.LTGRAY)
+                    .withSelectedColor(Color.LTGRAY)
+                    .withSelectedTextColor(Color.BLACK)
+                    .withIcon(R.drawable.black_settings_button);
+            final PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName("Add your business")
+                    .withTextColor(Color.LTGRAY)
+                    .withSelectedColor(Color.LTGRAY)
+                    .withSelectedTextColor(Color.BLACK)
+                    .withIcon(R.drawable.shop);
+
+            final Drawer result = new DrawerBuilder()
+                    .withActivity(this)
+                    .withAccountHeader(accountHeader)
+                    .addDrawerItems(
+                            item1,
+                            new DividerDrawerItem(),
+                            item2,
+                            new DividerDrawerItem(),
+                            item3,
+                            new DividerDrawerItem(),
+                            itemSettings
+                    )
+                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                        @Override
+                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                            if (drawerItem.equals(itemSettings)) {
+                                Intent intent = new Intent(MainPageActivity.this, AccountSettingsActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            if (drawerItem.equals(item2)) {
+                                Intent intent = new Intent(MainPageActivity.this, ReservationActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            if (drawerItem.equals(item3)) {
+                                Intent intent = new Intent(MainPageActivity.this, BusinessRegisterActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                })
-                .withSliderBackgroundColor(Color.DKGRAY)
-                .withCloseOnClick(true)
-                .build();
+                    })
+                    .withSliderBackgroundColor(Color.DKGRAY)
+                    .withCloseOnClick(true)
+                    .build();
 
-
+        }
     }
 
 
     @Override    protected void onResume() {
         if (auth.getCurrentUser() == null) {
-            startActivity(new Intent(MainPage.this, LoginActivity.class));
+            startActivity(new Intent(MainPageActivity.this, LoginActivity.class));
             finish();
         }
         super.onResume();
@@ -222,7 +234,7 @@ public class MainPage extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(
-                            MainPage.this,
+                            MainPageActivity.this,
                             "Getting your reservations FAILED!",
                             Toast.LENGTH_LONG).show();
                 }
@@ -244,7 +256,7 @@ public class MainPage extends AppCompatActivity {
                 permissions[2]) == PackageManager.PERMISSION_GRANTED){
 
         }else{
-            ActivityCompat.requestPermissions(MainPage.this,
+            ActivityCompat.requestPermissions(MainPageActivity.this,
                     permissions,
                     REQUEST_CODE);
         }

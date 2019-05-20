@@ -43,7 +43,6 @@
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             android:hint="Password"
-            android:imeActionId="@+id/login"
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             android:maxLines="1"

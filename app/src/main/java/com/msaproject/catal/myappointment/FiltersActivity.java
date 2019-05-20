@@ -1,19 +1,26 @@
 package com.msaproject.catal.myappointment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class FiltersActivity extends AppCompatActivity {
 
     private static final String TAG = "com.msaproject.catal.myappointment.FiltersActivity";
+
+    //vars
+    private boolean twice;
 
     //widgets
     private Button mSave;
@@ -80,5 +87,39 @@ public class FiltersActivity extends AppCompatActivity {
         mCountry.setText(country);
         mStateProvince.setText(state_province);
         mCity.setText(city);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+            return true;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (twice){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        }
+
+        twice = true;
+        Intent intent = new Intent(FiltersActivity.this,SearchActivity.class);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                twice = false;
+            }
+        }, 3000);
+
+        startActivity(intent);
     }
 }

@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            startActivity(new Intent(RegisterActivity.this, AccountSettingsActivity.class));
             finish();
         }
 
@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             user.updateProfile(profileUpdates);
 
 
-                                            Intent intent = new Intent(RegisterActivity.this, MainPage.class);
+                                            Intent intent = new Intent(RegisterActivity.this, MainPageActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }

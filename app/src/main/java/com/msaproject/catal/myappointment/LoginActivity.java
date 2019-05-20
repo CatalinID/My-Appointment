@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_account_settings);
 
         FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     "Authentication Successfull",
                                                     Toast.LENGTH_LONG).show();
 
-                                            Intent intent = new Intent(LoginActivity.this, MainPage.class);
+                                            Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
                                             startActivity(intent);
                                             finish();
 
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override    protected void onResume() {
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainPage.class));
+            startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
             finish();
         }
         super.onResume();

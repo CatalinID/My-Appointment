@@ -18,19 +18,20 @@
         android:theme="@style/AppTheme">
         <activity android:name=".BusinessRegisterActivity"></activity>
         <activity android:name=".BusinessDetails" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".AccountSettingsActivity"/>
+        <activity android:name=".MainPageActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainPage" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgetAndChangePasswordActivity" />
         <activity android:name=".ReservationActivity" />
         <activity android:name=".FiltersActivity"/>
+        <activity android:name=".SearchActivity"/>
     </application>
 
 </manifest>

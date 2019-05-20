@@ -3,9 +3,12 @@ package com.msaproject.catal.myappointment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -29,6 +32,7 @@ public class ReservationActivity extends AppCompatActivity {
     private Calendar mCalendar;
     private Activity mActivity;
     private TextView mDate;
+    private boolean twice;
 
     /* Set up view, variables, and OnClickListener */
     @Override
@@ -107,5 +111,39 @@ public class ReservationActivity extends AppCompatActivity {
         }
 
     };
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+            return true;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (twice){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        }
+
+        twice = true;
+        Intent intent = new Intent(ReservationActivity.this,MainPageActivity.class);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                twice = false;
+            }
+        }, 3000);
+
+        startActivity(intent);
+    }
 
 }

@@ -1,12 +1,15 @@
 package com.msaproject.catal.myappointment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,6 +70,7 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
     private Uri mSelectedUri;
     private byte[] mUploadBytes;
     private double mProgress = 0;
+    private boolean twice;
 
 
     @Override
@@ -302,6 +306,40 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
      */
     private boolean isEmpty(String string){
         return string.equals("");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+            return true;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (twice){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        }
+
+        twice = true;
+        Intent intent = new Intent(BusinessRegisterActivity.this,MainPageActivity.class);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                twice = false;
+            }
+        }, 3000);
+
+        startActivity(intent);
     }
 
 }
