@@ -4,7 +4,7 @@ public class Business {
     private String business_id;
     private String user_id;
     private String description;
-    private String workingHours;
+    //private String workingHours;
     private String country;
     private String state_province;
     private String city;
@@ -14,11 +14,11 @@ public class Business {
     private String name;
     private String image;
 
-    public Business(String business_id, String user_id, String description, String workingHours, String country, String state_province, String city, String price, String email, String phoneNo, String name, String image) {
+    public Business(String business_id, String user_id, String description, /*String workingHours,*/ String country, String state_province, String city, String price, String email, String phoneNo, String name, String image) {
         this.business_id = business_id;
         this.user_id = user_id;
         this.description = description;
-        this.workingHours = workingHours;
+        /*this.workingHours = workingHours;*/
         this.country = country;
         this.state_province = state_province;
         this.city = city;
@@ -63,13 +63,13 @@ public class Business {
         this.description = description;
     }
 
-    public String getWorkingHours() {
+    /*public String getWorkingHours() {
         return workingHours;
     }
 
     public void setWorkingHours(String workingHours) {
         this.workingHours = workingHours;
-    }
+    }*/
 
     public String getPrice() {
         return price;
@@ -133,7 +133,7 @@ public class Business {
                 "business_id='" + business_id + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", description='" + description + '\'' +
-                ", workingHours='" + workingHours + '\'' +
+                /*", workingHours='" + workingHours + '\'' +*/
                 ", country='" + country + '\'' +
                 ", state_province='" + state_province + '\'' +
                 ", city='" + city + '\'' +
