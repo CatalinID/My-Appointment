@@ -1,4 +1,4 @@
-package com.msaproject.catal.myappointment;
+package com.msaproject.catal.myappointment.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.msaproject.catal.myappointment.R;
 import com.msaproject.catal.myappointment.models.Reservation;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class ReservationRecycleViewAdapter extends RecyclerView.Adapter<Recycler
 
 
     // data is passed into the constructor
-    ReservationRecycleViewAdapter(Context context, ArrayList<Reservation> reservations) {
+    public ReservationRecycleViewAdapter(Context context, ArrayList<Reservation> reservations) {
         mContext = context;
         mReservation = reservations;
     }

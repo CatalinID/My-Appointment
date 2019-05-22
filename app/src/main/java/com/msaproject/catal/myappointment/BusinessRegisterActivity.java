@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -206,49 +207,119 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
                 .child("business/photo/" + businessId + "/business_image");
 
         UploadTask uploadTask = storageReference.putBytes(mUploadBytes);
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return storageReference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+
+                    String firebasePath = downloadUri.toString();
+
+                    Log.d(TAG, "onSuccess: firebase download path: " + firebasePath);
+                    //DocumentReference businnessDoc = FirebaseFirestore.getInstance().collection("business").document();
+                    Business newBusiness = new Business();
+
+                    //Business newBusiness = new Business();
+                    newBusiness.setImage(firebasePath);
+                    newBusiness.setCity(mCity.getText().toString());
+                    newBusiness.setCountry(mCountry.getText().toString());
+                    newBusiness.setState_province(mStateProvince.getText().toString());
+                    newBusiness.setDescription(mDescription.getText().toString());
+                    newBusiness.setEmail(mContactEmail.getText().toString());
+                    newBusiness.setPhoneNo(mPhoneNo.getText().toString());
+                    newBusiness.setName(mTitle.getText().toString());
+                    newBusiness.setPrice(mPrice.getText().toString());
+                    newBusiness.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    newBusiness.setBusiness_id(businessId);
+
+                    businnessDoc.set(newBusiness).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(
+                                        BusinessRegisterActivity.this,
+                                        "BUSINESS HAS BEEN REGISTERED",
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(
+                                        BusinessRegisterActivity.this,
+                                        "BUSINESS REGISTRATION FAILED",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    });
+
+
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
+        /*uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(BusinessRegisterActivity.this, "Post Success", Toast.LENGTH_SHORT).show();
 
-                //insert the download url into the firebase database
-                String firebasePath = taskSnapshot.getMetadata().getPath();
 
-                Log.d(TAG, "onSuccess: firebase download path: " + firebasePath);
-                //DocumentReference businnessDoc = FirebaseFirestore.getInstance().collection("business").document();
-
-                Business newBusiness = new Business();
-                newBusiness.setImage(firebasePath);
-                newBusiness.setCity(mCity.getText().toString());
-                newBusiness.setCountry(mCountry.getText().toString());
-                newBusiness.setState_province(mStateProvince.getText().toString());
-                newBusiness.setDescription(mDescription.getText().toString());
-                newBusiness.setEmail(mContactEmail.getText().toString());
-                newBusiness.setPhoneNo(mPhoneNo.getText().toString());
-                newBusiness.setName(mTitle.getText().toString());
-                newBusiness.setPrice(mPrice.getText().toString());
-                newBusiness.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                newBusiness.setBusiness_id(businessId);
-                //working hours? maybe just in description
-
-                businnessDoc.set(newBusiness).addOnCompleteListener(new OnCompleteListener<Void>() {
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(
-                                    BusinessRegisterActivity.this,
-                                    "BUSINESS HAS BEEN REGISTERED",
-                                    Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(
-                                    BusinessRegisterActivity.this,
-                                    "BUSINESS REGISTRATION FAILED",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
+                    public void onSuccess(Uri uri) {
 
+                        //insert the download url into the firebase database
+                        String firebasePath = uri.toString();
+
+                        Log.d(TAG, "onSuccess: firebase download path: " + firebasePath);
+                        //DocumentReference businnessDoc = FirebaseFirestore.getInstance().collection("business").document();
+                        Business newBusiness = new Business();
+
+                        //Business newBusiness = new Business();
+                        newBusiness.setImage(firebasePath);
+                        newBusiness.setCity(mCity.getText().toString());
+                        newBusiness.setCountry(mCountry.getText().toString());
+                        newBusiness.setState_province(mStateProvince.getText().toString());
+                        newBusiness.setDescription(mDescription.getText().toString());
+                        newBusiness.setEmail(mContactEmail.getText().toString());
+                        newBusiness.setPhoneNo(mPhoneNo.getText().toString());
+                        newBusiness.setName(mTitle.getText().toString());
+                        newBusiness.setPrice(mPrice.getText().toString());
+                        newBusiness.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        newBusiness.setBusiness_id(businessId);
+
+                        businnessDoc.set(newBusiness).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(
+                                            BusinessRegisterActivity.this,
+                                            "BUSINESS HAS BEEN REGISTERED",
+                                            Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(
+                                            BusinessRegisterActivity.this,
+                                            "BUSINESS REGISTRATION FAILED",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                        });
+
+                    }
                 });
 
+                //working hours? maybe just in description
                 resetFields();
 
             }
@@ -267,7 +338,7 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
                     Toast.makeText(BusinessRegisterActivity.this, mProgress + "%", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
     }
 
     public static byte[] getBytesFromBitmap(Bitmap bitmap, int quality){

@@ -39,6 +39,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.msaproject.catal.myappointment.models.Reservation;
 import com.msaproject.catal.myappointment.models.User;
+import com.msaproject.catal.myappointment.util.ReservationRecycleViewAdapter;
 
 import java.util.ArrayList;
 
