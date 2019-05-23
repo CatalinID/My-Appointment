@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.msaproject.catal.myappointment.R;
+import com.msaproject.catal.myappointment.SearchActivity;
 import com.msaproject.catal.myappointment.models.Business;
 
 import java.util.ArrayList;
@@ -50,12 +51,16 @@ public class BusinessListAdapter extends RecyclerView.Adapter<BusinessListAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         UniversalImageLoader.setImage(mBusiness.get(position).getImage(), holder.mBusinessImage);
 
+        final int pos = position;
         holder.mBusinessImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: selected a business");
                 //TODO
+                ((SearchActivity)mContext).viewBusiness(mBusiness.get(pos).getId());
+
             }
+
         });
     }
 

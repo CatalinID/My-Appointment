@@ -2,11 +2,11 @@ package com.msaproject.catal.myappointment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ import com.msaproject.catal.myappointment.models.HitsObject;
 import com.msaproject.catal.myappointment.util.BusinessListAdapter;
 import com.msaproject.catal.myappointment.util.ElasticSearchAPI;
 import com.msaproject.catal.myappointment.util.RecyclerViewMargin;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +47,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private static final String TAG = "SearchFragment";
+    private static final String TAG = "SearchActivity";
     private static final String BASE_URL = "http://104.198.186.72//elasticsearch/bus/_doc/";
     private static final int NUM_GRID_COLUMNS = 3;
     private static final int GRID_ITEM_MARGIN = 5;
@@ -62,6 +65,7 @@ public class SearchActivity extends AppCompatActivity {
     //widgets
     private ImageView mFilters;
     private EditText mSearchText;
+    private FrameLayout mFrameLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +74,9 @@ public class SearchActivity extends AppCompatActivity {
         mFilters = findViewById(R.id.ic_search);
         mSearchText = findViewById(R.id.input_search);
         mRecyclerView = findViewById(R.id.recyclerView);
+        mFrameLayout = findViewById(R.id.container);
 
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(SearchActivity.this));
 
         getElasticSearchPassword();
 
@@ -181,13 +187,28 @@ public class SearchActivity extends AppCompatActivity {
                             Log.e(TAG, "onFailure: " + t.getMessage() );
                             Toast.makeText(SearchActivity.this, "search failed", Toast.LENGTH_SHORT).show();
                         }
-                });
-            }
+                    });
+                }
 
                 return false;
-        }
-    });
-}
+            }
+        });
+    }
+
+    public void viewBusiness(String businessId){
+        ViewBusinessFragment fragment = new ViewBusinessFragment();
+        FragmentTransaction transaction = SearchActivity.this.getSupportFragmentManager().beginTransaction();
+
+        Bundle args = new Bundle();
+        args.putString(getString(R.string.arg_business_id), businessId);
+        fragment.setArguments(args);
+
+        transaction.replace(R.id.container, fragment, getString(R.string.activity_view_business));
+        transaction.addToBackStack(getString(R.string.activity_view_business));
+        transaction.commit();
+
+        mFrameLayout.setVisibility(View.VISIBLE);
+    }
 
     @Override
     protected void onPostResume() {

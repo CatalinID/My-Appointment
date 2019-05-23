@@ -2,6 +2,8 @@
     <string name="app_name">My Appointment</string>
     <string name="dialog_select_photo">SelectPhoto</string>
 
+    <string name="activity_view_business">Business</string>
+
     <!-- Shared Preferenes -->
     <string name="preferences_country">preferences_country</string>
     <string name="preferences_state_province">preferences_state_province</string>
@@ -9,5 +11,7 @@
 
     <string name="node_elasticsearch">elasticsearch</string>
     <string name="field_password">password</string>
+
+    <string name="arg_business_id">arg_business_id</string>
 
 </resources>

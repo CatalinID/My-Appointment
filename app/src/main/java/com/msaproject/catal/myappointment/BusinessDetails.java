@@ -1,27 +1,20 @@
 package com.msaproject.catal.myappointment;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class BusinessDetails extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_business_details);
+        setContentView(R.layout.activity_view_business);
 
         DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("business/Beauty Shop");
-        db.addValueEventListener(new ValueEventListener() {
+       /* db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String description, prices, contact, address, hours;
@@ -58,6 +51,6 @@ public class BusinessDetails extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), ReservationActivity.class));
             }
-        });
+        });*/
     }
 }

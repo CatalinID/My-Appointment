@@ -19,14 +19,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.msaproject.catal.myappointment.models.Business;
@@ -212,6 +209,7 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
+                    Toast.makeText(BusinessRegisterActivity.this, "Could not upload photo", Toast.LENGTH_SHORT).show();
                     throw task.getException();
                 }
 
@@ -223,15 +221,13 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
+                    Log.d(TAG, "onSuccess: firebase download path: " + downloadUri.toString());
 
-                    String firebasePath = downloadUri.toString();
-
-                    Log.d(TAG, "onSuccess: firebase download path: " + firebasePath);
                     //DocumentReference businnessDoc = FirebaseFirestore.getInstance().collection("business").document();
+
                     Business newBusiness = new Business();
 
-                    //Business newBusiness = new Business();
-                    newBusiness.setImage(firebasePath);
+                    newBusiness.setImage(downloadUri.toString());
                     newBusiness.setCity(mCity.getText().toString());
                     newBusiness.setCountry(mCountry.getText().toString());
                     newBusiness.setState_province(mStateProvince.getText().toString());
@@ -261,10 +257,10 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
 
                     });
 
+                    resetFields();
 
                 } else {
-                    // Handle failures
-                    // ...
+                    Toast.makeText(BusinessRegisterActivity.this, "Could not obtain download Url", Toast.LENGTH_SHORT).show();
                 }
             }
         });
