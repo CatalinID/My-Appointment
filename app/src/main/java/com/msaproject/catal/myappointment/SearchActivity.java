@@ -161,8 +161,8 @@ public class SearchActivity extends AppCompatActivity {
                                 Log.d(TAG, "onResponse: hits: " + hitsList);
 
                                 for(int i = 0; i < hitsList.getBusinessIndex().size(); i++){
-                                    Log.d(TAG, "onResponse: data: " + hitsList.getBusinessIndex().get(i).getPost().toString());
-                                    mBusiness.add(hitsList.getBusinessIndex().get(i).getPost());
+                                    Log.d(TAG, "onResponse: data: " + hitsList.getBusinessIndex().get(i).getBusiness().toString());
+                                    mBusiness.add(hitsList.getBusinessIndex().get(i).getBusiness());
                                 }
 
                                 Log.d(TAG, "onResponse: size: " + mBusiness.size());
@@ -202,6 +202,8 @@ public class SearchActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putString(getString(R.string.arg_business_id), businessId);
         fragment.setArguments(args);
+
+        Log.d(TAG,"Fragment args bundle" + args.toString());
 
         transaction.replace(R.id.container, fragment, getString(R.string.activity_view_business));
         transaction.addToBackStack(getString(R.string.activity_view_business));

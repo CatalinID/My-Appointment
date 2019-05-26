@@ -1,7 +1,7 @@
 package com.msaproject.catal.myappointment.models;
 
 public class Business {
-    private String business_id;
+    private String id;
     private String user_id;
     private String description;
     //private String workingHours;
@@ -15,7 +15,7 @@ public class Business {
     private String image;
 
     public Business(String business_id, String user_id, String description, /*String workingHours,*/ String country, String state_province, String city, String price, String email, String phoneNo, String name, String image) {
-        this.business_id = business_id;
+        this.id = business_id;
         this.user_id = user_id;
         this.description = description;
         /*this.workingHours = workingHours;*/
@@ -32,11 +32,11 @@ public class Business {
     public Business(){};
 
     public String getId() {
-        return business_id;
+        return id;
     }
 
-    public void setBusiness_id(String business_id) {
-        this.business_id = business_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUser_id() {
@@ -130,7 +130,7 @@ public class Business {
     @Override
     public String toString() {
         return "Business{" +
-                "business_id='" + business_id + '\'' +
+                "id='" + id + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", description='" + description + '\'' +
                 /*", workingHours='" + workingHours + '\'' +*/

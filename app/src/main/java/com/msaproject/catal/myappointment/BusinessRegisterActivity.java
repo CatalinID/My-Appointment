@@ -237,7 +237,7 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
                     newBusiness.setName(mTitle.getText().toString());
                     newBusiness.setPrice(mPrice.getText().toString());
                     newBusiness.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    newBusiness.setBusiness_id(businessId);
+                    newBusiness.setId(businessId);
 
                     businnessDoc.set(newBusiness).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -292,7 +292,7 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
                         newBusiness.setName(mTitle.getText().toString());
                         newBusiness.setPrice(mPrice.getText().toString());
                         newBusiness.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        newBusiness.setBusiness_id(businessId);
+                        newBusiness.setId(businessId);
 
                         businnessDoc.set(newBusiness).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

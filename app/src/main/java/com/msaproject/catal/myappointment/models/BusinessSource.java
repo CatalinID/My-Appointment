@@ -12,11 +12,11 @@ public class BusinessSource {
     private Business business;
 
 
-    public Business getPost() {
+    public Business getBusiness() {
         return business;
     }
 
-    public void setPost(Business post) {
+    public void setBusiness(Business post) {
         this.business = business;
     }
 }

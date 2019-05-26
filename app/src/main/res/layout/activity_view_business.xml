@@ -49,12 +49,13 @@
 
 
             <ImageView
+                android:id="@+id/business_close"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/business_close"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:elevation="5dp"/>
+                android:background="@color/DarkGrey"
+                android:elevation="5dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -115,21 +116,19 @@
 
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/relLayout1"
                     android:background="@color/background"
-                    android:layout_marginTop="10dp"
-                    >
+                    android:layout_marginTop="10dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:id="@+id/business_contact"
                         android:textColor="@color/White"
-                        android:text="contact seller"
+                        android:text="Email business"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
                         android:textAlignment="center"
@@ -138,8 +137,26 @@
                         android:paddingBottom="10dp"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
+                        android:background="@drawable/teal_onclick_red"/>
+
+
+                    <TextView
+                        android:id="@+id/business_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/business_contact"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
                         android:background="@drawable/teal_onclick_red"
-                        android:layout_centerVertical="true"/>
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="10dp"
+                        android:text="Call business"
+                        android:textAlignment="center"
+                        android:textColor="@color/White"
+                        android:textSize="18sp" />
 
                 </RelativeLayout>
 

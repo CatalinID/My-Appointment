@@ -55,7 +55,7 @@ public class BusinessListAdapter extends RecyclerView.Adapter<BusinessListAdapte
         holder.mBusinessImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: selected a business");
+                Log.d(TAG, "onClick: selected a business with id:" + mBusiness.get(pos).getId());
                 //TODO
                 ((SearchActivity)mContext).viewBusiness(mBusiness.get(pos).getId());
 
