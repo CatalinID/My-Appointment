@@ -44,6 +44,8 @@ public class ReservationRecycleViewAdapter extends RecyclerView.Adapter<Recycler
         if(holder instanceof ViewHolder){
             ((ViewHolder)holder).title.setText(mReservation.get(position).getBusinessName());
 
+            ((ViewHolder)holder).state.setText(mReservation.get(position).getState());
+
             ((ViewHolder)holder).timestart.setText(mReservation.get(position).getReservationTime());
         }
     }
@@ -58,12 +60,13 @@ public class ReservationRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, timestart;
+        TextView title, timestart, state;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             timestart = itemView.findViewById(R.id.timestart);
+            state = itemView.findViewById(R.id.state);
 
         }
 

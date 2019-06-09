@@ -2,8 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/search_toolbar"
@@ -41,7 +40,7 @@
 
     </android.support.v7.widget.Toolbar>
 
-
+    <!--business list-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -49,8 +48,6 @@
         android:layout_below="@+id/search_toolbar"
         android:background="@color/background"
         android:scrollbars="vertical">
-
-
     </android.support.v7.widget.RecyclerView>
 
 

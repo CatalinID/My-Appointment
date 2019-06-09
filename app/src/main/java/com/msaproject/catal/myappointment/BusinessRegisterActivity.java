@@ -1,11 +1,13 @@
 package com.msaproject.catal.myappointment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,6 +25,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -238,6 +242,33 @@ public class BusinessRegisterActivity extends AppCompatActivity implements Selec
                     newBusiness.setPrice(mPrice.getText().toString());
                     newBusiness.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     newBusiness.setId(businessId);
+
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w(TAG, "getInstanceId failed", task.getException());
+                                return;
+                            }
+
+                            // Get new Instance ID token
+                            String token = task.getResult().getToken();
+
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(BusinessRegisterActivity.this);
+                            SharedPreferences.Editor editor = preferences.edit();
+
+                            editor.putString(getString(R.string.msg_token_fmt), token);
+                            editor.commit();
+
+                            // Log and toast
+                            Log.d(TAG, token);
+
+                        }
+                    });
+
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(BusinessRegisterActivity.this);
+
+                    newBusiness.setMessaging_token(preferences.getString(getString(R.string.msg_token_fmt), ""));
 
                     businnessDoc.set(newBusiness).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

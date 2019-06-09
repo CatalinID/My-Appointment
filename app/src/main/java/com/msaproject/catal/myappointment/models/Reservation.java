@@ -18,8 +18,10 @@ public class Reservation {
     private @Exclude String monthYear;
     private String businessName;
     private Timestamp reservationBegin;
+    private String state;
+    private String messaging_token;
 
-    public Reservation(Date timestamp, String user_id, String business_id, String startHour, int day, String monthYear, String businessName, Timestamp reservationBegin) {
+    public Reservation(Date timestamp, String user_id, String business_id, String startHour, int day, String monthYear, String businessName, Timestamp reservationBegin, String state,String messaging_token) {
         this.timestamp = timestamp;
         this.user_id = user_id;
         this.business_id = business_id;
@@ -28,6 +30,8 @@ public class Reservation {
         this.monthYear = monthYear;
         this.businessName = businessName;
         this.reservationBegin = reservationBegin;
+        this.state = state;
+        this.messaging_token = messaging_token;
     }
 
     public Reservation(){}
@@ -77,6 +81,22 @@ public class Reservation {
 
     public void setReservationBegin(Timestamp reservationBegin) {
         this.reservationBegin = reservationBegin;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getMessaging_token() {
+        return messaging_token;
+    }
+
+    public void setMessaging_token(String messaging_token) {
+        this.messaging_token = messaging_token;
     }
 
     @Exclude

@@ -3,13 +3,7 @@ package com.msaproject.catal.myappointment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BlurMaskFilter;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,7 +33,7 @@ public class ViewBusinessFragment extends Fragment {
     private static final String TAG = "ViewPostFragment";
 
     //widgets
-    private TextView mEmailBusiness, mCallBusiness, mTitle, mDescription, mPrice, mLocation, mSaveBusiness;
+    private TextView mEmailBusiness, mCallBusiness, mTitle, mDescription, mPrice, mLocation, mSaveBusiness, mMakeAppointment;
     private ImageView mClose, mWatchList, mBusinessImage;
 
     //vars
@@ -69,6 +63,7 @@ public class ViewBusinessFragment extends Fragment {
         mWatchList = view.findViewById(R.id.add_watch_list);
         mBusinessImage = view.findViewById(R.id.business_image);
         mSaveBusiness = view.findViewById(R.id.save_business);
+        mMakeAppointment = view.findViewById(R.id.appointment_button);
 
         init();
 
@@ -95,6 +90,18 @@ public class ViewBusinessFragment extends Fragment {
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mBusiness.getPhoneNo()));
                 getActivity().startActivity(callIntent);
+            }
+        });
+
+        mMakeAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent apptIntent= new Intent(getActivity(), ReservationActivity.class);
+                Bundle args = new Bundle();
+                args.putString(getString(R.string.arg_business_id), mBusinessId);
+                args.putString(getString(R.string.arg_business_name), mTitle.getText().toString());
+                apptIntent.putExtras(args);
+                getActivity().startActivity(apptIntent);
             }
         });
 
@@ -139,8 +146,10 @@ public class ViewBusinessFragment extends Fragment {
                             price = "$" + mBusiness.getPrice();
                         }
 
+                        String location = mBusiness.getCountry() +" , "+ mBusiness.getState_province() +" , "+ mBusiness.getCity();
+
                         mPrice.setText(price);
-                        mLocation.setText(mBusiness.getCountry() +" , "+ mBusiness.getState_province() +" , "+ mBusiness.getCity());
+                        mLocation.setText(location);
                         UniversalImageLoader.setImage(mBusiness.getImage(), mBusinessImage);
 
                     } else {

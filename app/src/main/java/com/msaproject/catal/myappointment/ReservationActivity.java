@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -21,6 +24,8 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.msaproject.catal.myappointment.models.Reservation;
 
 import java.text.SimpleDateFormat;
@@ -28,10 +33,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class ReservationActivity extends AppCompatActivity {
+
+    private static final String TAG = "ReservationActivity";
+
     private SimpleDateFormat mSimpleDateFormat;
     private Calendar mCalendar;
     private Activity mActivity;
     private TextView mDate;
+    private String mBusinessId,mBusinessName;
     private boolean twice;
 
     /* Set up view, variables, and OnClickListener */
@@ -39,6 +48,15 @@ public class ReservationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
+
+        Bundle b = getIntent().getExtras();
+
+        if(b != null){
+            mBusinessId = b.getString(getString(R.string.arg_business_id));
+            mBusinessName = b.getString(getString(R.string.arg_business_name));
+        }
+
+        Log.d(TAG, "onCreate: got the post id: " + mBusinessId);
 
         mActivity = this;
         mSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a", Locale.getDefault());
@@ -90,7 +108,38 @@ public class ReservationActivity extends AppCompatActivity {
             DocumentReference newReservationRef = businessRef.collection("reservations" ).document();//.document(businessName).collection(reservation.getMonthYear()+ "-" + reservation.getDay()).document(reservation.getStartHour());
 
             newReservation.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            newReservation.setBusiness_id(newReservationRef.getId());
+            newReservation.setBusiness_id(mBusinessId);
+            newReservation.setBusinessName(mBusinessName);
+            newReservation.setState(getString(R.string.arg_reservation_state));
+
+            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                @Override
+                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ReservationActivity.this);
+                    SharedPreferences.Editor editor = preferences.edit();
+
+                    editor.putString(getString(R.string.msg_token_fmt), token);
+                    editor.commit();
+
+                    // Log and toast
+                    Log.d(TAG, token);
+
+                }
+            });
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ReservationActivity.this);
+
+            newReservation.setMessaging_token(preferences.getString(getString(R.string.msg_token_fmt), ""));
+
+
 
             newReservationRef.set(newReservation).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -98,12 +147,12 @@ public class ReservationActivity extends AppCompatActivity {
                if (task.isSuccessful()) {
                    Toast.makeText(
                            ReservationActivity.this,
-                           "APPOINTEMENT HAS BEEN MADE",
+                           "APPOINTMENT HAS BEEN MADE",
                            Toast.LENGTH_LONG).show();
                } else {
                    Toast.makeText(
                            ReservationActivity.this,
-                           "APPOINTEMENT FAILED",
+                           "APPOINTMENT FAILED, DATE TAKEN",
                            Toast.LENGTH_LONG).show();
                }
                 }

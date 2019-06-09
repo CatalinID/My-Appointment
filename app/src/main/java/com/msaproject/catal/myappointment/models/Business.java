@@ -13,8 +13,9 @@ public class Business {
     private String phoneNo;
     private String name;
     private String image;
+    private String messaging_token;
 
-    public Business(String business_id, String user_id, String description, /*String workingHours,*/ String country, String state_province, String city, String price, String email, String phoneNo, String name, String image) {
+    public Business(String business_id, String user_id, String description, /*String workingHours,*/ String country, String state_province, String city, String price, String email, String phoneNo, String name, String image, String messaging_token) {
         this.id = business_id;
         this.user_id = user_id;
         this.description = description;
@@ -27,6 +28,7 @@ public class Business {
         this.phoneNo = phoneNo;
         this.name = name;
         this.image = image;
+        this.messaging_token = messaging_token;
     }
 
     public Business(){};
@@ -125,6 +127,14 @@ public class Business {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getMessaging_token() {
+        return messaging_token;
+    }
+
+    public void setMessaging_token(String messaging_token) {
+        this.messaging_token = messaging_token;
     }
 
     @Override

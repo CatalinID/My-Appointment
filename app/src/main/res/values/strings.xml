@@ -13,5 +13,9 @@
     <string name="field_password">password</string>
 
     <string name="arg_business_id">arg_business_id</string>
+    <string name="arg_business_name">arg_business_name</string>
+
+    <string name="arg_reservation_state">Pending</string>
+    <string name="msg_token_fmt">msg_token_fmt</string>
 
 </resources>

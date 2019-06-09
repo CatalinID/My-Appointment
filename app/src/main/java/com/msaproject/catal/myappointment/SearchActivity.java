@@ -58,7 +58,7 @@ public class SearchActivity extends AppCompatActivity {
     private String mPrefCity;
     private String mPrefStateProv;
     private String mPrefCountry;
-    private ArrayList<Business> mBusiness;
+    private ArrayList<Business> mBusinessList;
     private RecyclerView mRecyclerView;
     private BusinessListAdapter mAdapter;
 
@@ -89,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(itemDecorator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(SearchActivity.this, NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mAdapter = new BusinessListAdapter(SearchActivity.this, mBusiness);
+        mAdapter = new BusinessListAdapter(SearchActivity.this, mBusinessList);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -111,7 +111,7 @@ public class SearchActivity extends AppCompatActivity {
                         || actionId == EditorInfo.IME_ACTION_DONE
                         || event.getAction() == KeyEvent.ACTION_DOWN
                         || event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
-                    mBusiness = new ArrayList<Business>();
+                    mBusinessList = new ArrayList<Business>();
 
                     Log.d(TAG, "mSearch Text pressed" );
 
@@ -162,11 +162,11 @@ public class SearchActivity extends AppCompatActivity {
 
                                 for(int i = 0; i < hitsList.getBusinessIndex().size(); i++){
                                     Log.d(TAG, "onResponse: data: " + hitsList.getBusinessIndex().get(i).getBusiness().toString());
-                                    mBusiness.add(hitsList.getBusinessIndex().get(i).getBusiness());
+                                    mBusinessList.add(hitsList.getBusinessIndex().get(i).getBusiness());
                                 }
 
-                                Log.d(TAG, "onResponse: size: " + mBusiness.size());
-                                //setup the list of posts
+                                Log.d(TAG, "onResponse: size: " + mBusinessList.size());
+                                //setup the list of businesses
 
                                 setupBusinessesList();
 
