@@ -78,6 +78,10 @@ public class Reservation {
         return hourdaymonthyear.format(reservationBegin.toDate());
     }
 
+    public String getDayMonthYear(){
+        SimpleDateFormat daymonthyear = new SimpleDateFormat("dd M yyyy");
+        return daymonthyear.format(reservationBegin.toDate());
+    }
 
     public void setReservationBegin(Timestamp reservationBegin) {
         this.reservationBegin = reservationBegin;

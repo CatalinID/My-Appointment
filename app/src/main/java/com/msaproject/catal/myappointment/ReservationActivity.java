@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,13 +24,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.msaproject.catal.myappointment.models.Reservation;
+import com.msaproject.catal.myappointment.util.ReservationRecycleViewAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -39,9 +48,15 @@ public class ReservationActivity extends AppCompatActivity {
     private SimpleDateFormat mSimpleDateFormat;
     private Calendar mCalendar;
     private Activity mActivity;
-    private TextView mDate;
+    private TextView mDate,mTime;
     private String mBusinessId,mBusinessName;
     private boolean twice;
+
+    private RecyclerView takenView;
+
+    private ArrayList<Reservation> takenResList = new ArrayList<>();
+    private ReservationRecycleViewAdapter takenResAdapter;
+    private DocumentSnapshot lastReservation;
 
     /* Set up view, variables, and OnClickListener */
     @Override
@@ -58,10 +73,19 @@ public class ReservationActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: got the post id: " + mBusinessId);
 
+        takenView = findViewById(R.id.recycle_view);
+
+        initRecyclerView();
+
         mActivity = this;
         mSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a", Locale.getDefault());
         mDate = findViewById(R.id.dateMain);
         mDate.setOnClickListener(textListener);
+
+        mTime = findViewById(R.id.timeMain);
+        mTime.setOnClickListener(timeListener);
+
+
     }
 
     private final View.OnClickListener textListener = new View.OnClickListener() {
@@ -73,13 +97,22 @@ public class ReservationActivity extends AppCompatActivity {
         }
     };
 
+    private final View.OnClickListener timeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            new TimePickerDialog(mActivity, mTimeDataSet, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
+        }
+    };
+
     private final DatePickerDialog.OnDateSetListener mDateDataSet = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             mCalendar.set(Calendar.YEAR, year);
             mCalendar.set(Calendar.MONTH, monthOfYear);
             mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            new TimePickerDialog(mActivity, mTimeDataSet, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
+
+            getBusinessReservations(mBusinessId);
+            //new TimePickerDialog(mActivity, mTimeDataSet, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
         }
     };
 
@@ -160,6 +193,68 @@ public class ReservationActivity extends AppCompatActivity {
         }
 
     };
+
+    private void initRecyclerView(){
+        if(takenResAdapter == null){
+            takenResAdapter = new ReservationRecycleViewAdapter(this, takenResList);
+        }
+        takenView.setLayoutManager(new LinearLayoutManager(this));
+        takenView.setAdapter(takenResAdapter);
+    }
+
+    private void getBusinessReservations(String businessId){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        CollectionReference reservationsCollectionRef = db.collection("reservations");
+
+        Query reservationsQuery = null;
+
+        if(lastReservation != null){
+            reservationsQuery = reservationsCollectionRef
+                    .whereEqualTo("business_id", businessId)
+                    .orderBy("reservationBegin", Query.Direction.ASCENDING)
+                    .startAfter(lastReservation);
+        }
+        else {
+            reservationsQuery = reservationsCollectionRef
+                    .whereEqualTo("business_id", businessId)
+                    .orderBy("reservationBegin", Query.Direction.ASCENDING);
+        }
+        reservationsQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document: task.getResult()){
+                        Reservation reservation = document.toObject(Reservation.class);
+                        int month =  mCalendar.get(mCalendar.MONTH) + 1;
+                        String date = mCalendar.get(mCalendar.DAY_OF_MONTH) + " " + month + " " + mCalendar.get(mCalendar.YEAR);
+
+                        Log.d(TAG, "date vs getMonthYear " + date + " : " + reservation.getDayMonthYear());
+
+                        if(date.equals(reservation.getDayMonthYear())) {
+                            reservation.setBusinessName("");
+                            reservation.setState("TAKEN");
+                            takenResList.add(reservation);
+                        }
+                    }
+
+                    if(task.getResult().size() != 0){
+                        lastReservation = task.getResult().getDocuments().get(task.getResult().size() - 1);
+                    }
+                    takenResAdapter.notifyDataSetChanged();
+                }
+                else {
+                    Toast.makeText(
+                            ReservationActivity.this,
+                            "Getting TAKEN appointments FAILED!",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        mDate.setVisibility(View.INVISIBLE);
+        mTime.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {

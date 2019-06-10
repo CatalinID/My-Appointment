@@ -43,7 +43,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(token);
+        //sendRegistrationToServer(token);
+
         //update token in business and appointment
     }
 

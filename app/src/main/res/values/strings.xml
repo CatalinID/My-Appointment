@@ -18,4 +18,8 @@
     <string name="arg_reservation_state">Pending</string>
     <string name="msg_token_fmt">msg_token_fmt</string>
 
+    <string name="history">Your appointments history</string>
+
+    <string name="manage">Manage your business appointments</string>
+
 </resources>

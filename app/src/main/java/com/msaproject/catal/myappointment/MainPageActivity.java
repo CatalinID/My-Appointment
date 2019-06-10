@@ -141,6 +141,11 @@ public class MainPageActivity extends AppCompatActivity {
                     .withSelectedColor(Color.LTGRAY)
                     .withSelectedTextColor(Color.BLACK)
                     .withIcon(R.drawable.shop);
+            final PrimaryDrawerItem item4 = new PrimaryDrawerItem().withName("Manage your business")
+                    .withTextColor(Color.LTGRAY)
+                    .withSelectedColor(Color.LTGRAY)
+                    .withSelectedTextColor(Color.BLACK)
+                    .withIcon(R.drawable.shop);
 
             final Drawer result = new DrawerBuilder()
                     .withActivity(this)
@@ -163,12 +168,17 @@ public class MainPageActivity extends AppCompatActivity {
                                 finish();
                             }
                             if (drawerItem.equals(item2)) {
-                                Intent intent = new Intent(MainPageActivity.this, ReservationActivity.class);
+                                Intent intent = new Intent(MainPageActivity.this, AppointmentsActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
                             if (drawerItem.equals(item3)) {
                                 Intent intent = new Intent(MainPageActivity.this, BusinessRegisterActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            if (drawerItem.equals(item4)) {
+                                Intent intent = new Intent(MainPageActivity.this, BusinessManageActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
