@@ -10,12 +10,13 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FF5722"
+        android:textColor="#F8F8F8"
         android:textSize="18sp"
         android:text="aaaaaa"/>
+
     <View
         android:id="@+id/divider2"
-        android:layout_width="0dp"
+        android:layout_width="10dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?android:attr/listDivider"
@@ -26,13 +27,13 @@
         android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="aaaaaa"
         android:textColor="#FFEB3B"
-        android:textSize="18sp"
-        android:text="aaaaaa"/>
+        android:textSize="10sp" />
 
     <View
         android:id="@+id/divider3"
-        android:layout_width="0dp"
+        android:layout_width="10dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?android:attr/listDivider"

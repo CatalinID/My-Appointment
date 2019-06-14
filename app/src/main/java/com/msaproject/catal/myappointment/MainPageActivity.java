@@ -145,7 +145,7 @@ public class MainPageActivity extends AppCompatActivity {
                     .withTextColor(Color.LTGRAY)
                     .withSelectedColor(Color.LTGRAY)
                     .withSelectedTextColor(Color.BLACK)
-                    .withIcon(R.drawable.shop);
+                    .withIcon(R.drawable.calendar);
 
             final Drawer result = new DrawerBuilder()
                     .withActivity(this)
@@ -156,6 +156,8 @@ public class MainPageActivity extends AppCompatActivity {
                             item2,
                             new DividerDrawerItem(),
                             item3,
+                            new DividerDrawerItem(),
+                            item4,
                             new DividerDrawerItem(),
                             itemSettings
                     )

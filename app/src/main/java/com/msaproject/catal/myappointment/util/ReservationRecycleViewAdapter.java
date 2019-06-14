@@ -2,6 +2,7 @@ package com.msaproject.catal.myappointment.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,14 @@ public class ReservationRecycleViewAdapter extends RecyclerView.Adapter<Recycler
         if(holder instanceof ViewHolder){
             ((ViewHolder)holder).title.setText(mReservation.get(position).getBusinessName());
 
-            ((ViewHolder)holder).state.setText(mReservation.get(position).getState());
+            String state = mReservation.get(position).getState();
+
+            if(state.equals("Accepted")) {
+                ((ViewHolder) holder).state.setTextColor(ContextCompat.getColor(mContext, R.color.green1));
+            }else if (state.equals("Denied"))
+                ((ViewHolder) holder).state.setTextColor(ContextCompat.getColor(mContext, R.color.red1));
+
+            ((ViewHolder) holder).state.setText(state);
 
             ((ViewHolder)holder).timestart.setText(mReservation.get(position).getReservationTime());
         }

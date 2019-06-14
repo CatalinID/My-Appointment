@@ -45,10 +45,10 @@ public class ReservationActivity extends AppCompatActivity {
 
     private static final String TAG = "ReservationActivity";
 
-    private SimpleDateFormat mSimpleDateFormat;
+    private SimpleDateFormat mSimpleDateFormat, mSimpleDayMonthYear;
     private Calendar mCalendar;
     private Activity mActivity;
-    private TextView mDate,mTime;
+    private TextView mDate,mTime,mPickedDate;
     private String mBusinessId,mBusinessName;
     private boolean twice;
 
@@ -73,12 +73,15 @@ public class ReservationActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: got the post id: " + mBusinessId);
 
+        mPickedDate = findViewById(R.id.datePicked);
+
         takenView = findViewById(R.id.recycle_view);
 
         initRecyclerView();
 
         mActivity = this;
         mSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a", Locale.getDefault());
+        mSimpleDayMonthYear = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         mDate = findViewById(R.id.dateMain);
         mDate.setOnClickListener(textListener);
 
@@ -252,6 +255,8 @@ public class ReservationActivity extends AppCompatActivity {
             }
         });
 
+        mPickedDate.setText(mSimpleDayMonthYear.format(mCalendar.getTime()));
+        mPickedDate.setVisibility(View.VISIBLE);
         mDate.setVisibility(View.INVISIBLE);
         mTime.setVisibility(View.VISIBLE);
     }
